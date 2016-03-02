@@ -114,8 +114,7 @@ var personaliseIntro = function(userID) {
   var intros = [
     "I sight some party people here: :dancer: "+username+"",
     "I know what you did last friday: :see_no_evil: "+username+"",
-    ""+username+", :you_smart: you are sighted.",
-    ""+username+" "
+    ""+username+", :you_smart: you are sighted."
   ];
   if(!isFriday){
     intros.push(""+username+", you must be in `chilling mode`. Am i right or yes?", "Wholop! "+username+"! Today isn't friday :white_frowning_face: ", ""+username+"! Face your work please :unamused: ")
