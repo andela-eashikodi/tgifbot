@@ -1,8 +1,6 @@
 var Botkit = require('botkit'); // require botkit module  
-var config = require('./token');
+var config = require('./config');
 var moment = require('moment');
-var express = require('express');
-var app = express();
 var token = process.env.SLACK_TOKEN || config.SLACK_TOKEN; // get slack token passed as variable
 
 // Setup new slackbot with botkit
@@ -291,12 +289,3 @@ controller.hears(["send invite to"], ["direct_message", "direct_metion"], functi
   sendKeyToHandler(bot, message);
 
 }) 
-
-app.listen('8020', function(err) {
-  if (err){
-    console.log(err)
-  }
-  else {
-    console.log("App started on port 8020");
-  }
-});
