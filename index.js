@@ -98,12 +98,12 @@ var replyRandomKey = function(bot, message) {
   var greatLine = getRandomKey();
   if(isFriday){
     askOut = "TGIF! Let's have a drink this evening. What ya say? :grin:"
+    bot.reply(message, greatLine + ' ' + askOut);
   }
   else {
     askOut = "Let's have a drink this friday. What ya say? :grin:"
+    bot.reply(message, greatLine + ' ' + askOut);
   }
-   
-  bot.reply(message, greatLine + ' ' + askOut);
 }
 var replyRandomAdvise = function(bot, message) {
   var greatLine = getRandomKey();
@@ -142,7 +142,7 @@ var sendKeyToHandler = function(bot, message) {
           if ( response.text === 'yes' | response.text === 'Yes' ) {
             bot.reply(message, "Will do! Check <#"+channel+">");
             bot.say({
-              text: "Yo "+user + ", <@"+message.user+"> Invites you for a drink " + getRandomKey(),
+              text: "Yo "+user + ", <@"+message.user+"> Invites you for a drink " + isFridayText() + getRandomKey(),
               channel: channel
             });
           } else {
@@ -162,7 +162,7 @@ controller.on("direct_message", function(bot, message) {
 
   if ( message.text.indexOf("hello") > -1 | message.text.indexOf("hi") > -1 | message.text.indexOf("hey") > -1 ) {
 
-    var reply = "Hello. I'm tgifbot, make sure you always have fun on fridays. Word of advise..."
+    var reply = "Hello. I'm tgifbot, make sure you always have fun " + isFridayText() + ". Word of advise..."
     bot.reply(message, reply);
 
     replyRandomAdvise(bot, message);
@@ -202,7 +202,7 @@ controller.on("direct_mention", function(bot, message) {
 
   if ( message.text.indexOf("hello") > -1 | message.text.indexOf("hi") > -1 | message.text.indexOf("hey") > -1 ) {
 
-    var intro = "Sup <@"+message.user+">, I'm tgifbot, make sure you always have fun on fridays. Word of advise...";
+    var intro = "Sup <@"+message.user+">, I'm tgifbot, make sure you have fun " + isFridayText() + ". Word of advise...";
     bot.reply(message, intro);
     replyRandomAdvise(bot, message);
 
@@ -233,7 +233,7 @@ controller.on("mention", function(bot, message) {
 
   if ( message.text.indexOf("hello") > -1 | message.text.indexOf("hi") > -1 | message.text.indexOf("hey") > -1 ) {
 
-    var intro = "Sup <@"+message.user+">, I'm tgifbot, make sure you always have fun on fridays. Word of advise...";
+    var intro = "Sup <@"+message.user+">, I'm tgifbot, make sure you always have fun " + isFridayText() + ". Word of advise...";
     bot.reply(message, intro);
     replyRandomAdvise(bot, message);
 
@@ -250,13 +250,13 @@ controller.on("mention", function(bot, message) {
 })
 
 controller.on("user_channel_join", function(bot, message) {
-  var intro = "Sup <@"+message.user+">! I see some workaholics here! Make sure you always have fun on fridays. Word of advise...";
+  var intro = "Sup <@"+message.user+">! I see some workaholics here! Make sure you always have fun " + isFridayText() + ". Word of advise...";
   bot.reply(message, intro);
   replyRandomAdvise(bot, message);
 })
 
 controller.on("user_group_join", function(bot, message) {
-  var intro = "Sup <@"+message.user+">! I see some workaholics here! Make sure you always have fun on fridays. Word of advise...";
+  var intro = "Sup <@"+message.user+">! I see some workaholics here! Make sure you always have fun " + isFridayText() + ". Word of advise...";
   bot.reply(message, intro);
   replyRandomAdvise(bot, message);
 })
