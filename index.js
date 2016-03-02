@@ -1,5 +1,5 @@
 var Botkit = require('botkit'); // require botkit module  
-var config = require('./token');
+var config = require('./config');
 var moment = require('moment');
 var token = process.env.SLACK_TOKEN || config.SLACK_TOKEN; // get slack token passed as variable
 
@@ -53,7 +53,6 @@ var lines = [
   "It makes no sense to worry about things you have no control over because there's nothing you can do about them, and why worry about things you do control? The activity of worrying keeps you immobilized.",
   "Everything that irritates us about others can lead us to an understanding of ourselves.",
   "It seems that we have it backward in our society. We tend to look up to people who are under a great deal of stress.",
-  "CONTROL STRESS THEN YOU CAN CONTROL THE WORLD",
   "Never let stress get in the way of a good day",
   "Would you rather be right or free?",
   "Whenever you feel stress, work is filing-up and people around you are obnoxious, insensitive and just-looking out for themselves ..what to do? ",
@@ -87,10 +86,10 @@ var isFriday = moment().day() === 5;
 
 var isFridayText = function() {
   if(isFriday){
-    return "tonight"
+    return "tonight "
   }
   else {
-    return "friday evening"
+    return "friday evening "
   }
 }
 
@@ -142,7 +141,7 @@ var sendKeyToHandler = function(bot, message) {
           if ( response.text === 'yes' | response.text === 'Yes' ) {
             bot.reply(message, "Will do! Check <#"+channel+">");
             bot.say({
-              text: "Yo "+user + ", <@"+message.user+"> Invites you for a drink " + isFridayText() + getRandomKey(),
+              text: "Ello Bae "+user + ", <@"+message.user+"> Invites you for a drink " + isFridayText() + getRandomKey(),
               channel: channel
             });
           } else {

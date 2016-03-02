@@ -3,6 +3,6 @@
 ## installation
 
 * clone the repo
-* edit token.js file
+* add slack token in config.js file
 * run npm install
 * run npm start
