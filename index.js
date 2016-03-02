@@ -200,9 +200,9 @@ controller.on("direct_mention", function(bot, message) {
 
   if ( message.text.indexOf("hello") > -1 | message.text.indexOf("hi") > -1 | message.text.indexOf("hey") > -1 ) {
 
-    var intro = "Sup <@"+message.user+">, I'm tgifbot, make sure you have fun " + isFridayText() + ". Word of advise...";
+    var intro = personaliseIntro(message.user) + " Word of advise...";
     bot.reply(message, intro);
-    replyRandomAdvise(bot, message);
+    replyRandomKey(bot, message);
 
   } else if ( message.text.indexOf("thanks") > -1 | message.text.indexOf("thank you") > -1 ) {
 
@@ -231,7 +231,7 @@ controller.on("mention", function(bot, message) {
 
   if ( message.text.indexOf("hello") > -1 | message.text.indexOf("hi") > -1 | message.text.indexOf("hey") > -1 ) {
 
-    var intro = "Sup <@"+message.user+">, I'm tgifbot, make sure you always have fun " + isFridayText() + ". Word of advise...";
+    var intro = personaliseIntro(message.user) + " Word of advise...";
     bot.reply(message, intro);
     replyRandomAdvise(bot, message);
 
@@ -248,13 +248,13 @@ controller.on("mention", function(bot, message) {
 })
 
 controller.on("user_channel_join", function(bot, message) {
-  var intro = "Sup <@"+message.user+">! I see some workaholics here! Make sure you always have fun " + isFridayText() + ". Word of advise...";
+  var intro = "Sup <@"+message.user+">! Do you want to have fun " + isFridayText() + "? Word of advise...";
   bot.reply(message, intro);
   replyRandomAdvise(bot, message);
 })
 
 controller.on("user_group_join", function(bot, message) {
-  var intro = "Sup <@"+message.user+">! I see some workaholics here! Make sure you always have fun " + isFridayText() + ". Word of advise...";
+  var intro = "Sup <@"+message.user+">! Do you want to have fun " + isFridayText() + "? Word of advise...";
   bot.reply(message, intro);
   replyRandomAdvise(bot, message);
 })
@@ -271,7 +271,7 @@ controller.hears(["chilling"], ["ambient"], function(bot, message) {
   var intro = "<@"+message.user+"> It looks like you want to have fun " + isFridayText() + "Invite that special buddy, type `send invite to @username in #channel` ";
   bot.reply(message, intro);
 }) 
-controller.hears(["lol", "lmao", "haha"], ["ambient"], function(bot, message) {
+controller.hears(["lol", "Lol", "lmao", "haha"], ["ambient"], function(bot, message) {
 
   var laughing = [
     "Lawl `in abimbola's voice`", "Hilarious", ":joy:", ":laughing:", "Hahahaha", ":kanye:"
