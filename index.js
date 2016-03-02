@@ -1,7 +1,7 @@
 var Botkit = require('botkit'); // require botkit module  
-var config = require('./config');
+var config = require('./token');
 var moment = require('moment');
-var token = process.env.SLACK_TOKEN || config.SLACK_TOKEN; // get slack token passed as variable
+var token = process.env.SLACK_TOKEN || token.SLACK_TOKEN; // get slack token passed as variable
 
 // Setup new slackbot with botkit
 var controller = Botkit.slackbot({  
