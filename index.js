@@ -24,7 +24,6 @@ controller.spawn({
 
 var lines = [
   "I love deadlines. I love the whooshing noise they make as they go by.",
-  "wanna have a drink today",
   "I like work: it fascinates me. I can sit and look at it for hours.",
   "I always arrive late at the office, but I make up for it by leaving early.",
   "In the name of God, stop a moment, cease your work, look around you.",
@@ -76,13 +75,20 @@ var lines = [
   "I find television very educating. Every time somebody turns on the set, I go into the other room and read a book."
 ];
 
-var getRandomKey = function() {
-  var index = Math.floor(Math.random() * lines.length);
-  return lines[index];
-}
-
 var askOut;
 var isFriday = moment().day() === 5;
+
+var getRandomKey = function() {
+  var index = Math.floor(Math.random() * lines.length);
+  if(isFriday){
+    askOut = "TGIF! Let's have a drink this evening. What do you say? :grin:"
+    return lines[index] + askOut
+  }
+  else {
+    askOut = "Let's have a drink this friday. What do you say? :grin:"
+    return lines[index] + askOut
+  }
+}
 
 var isFridayText = function() {
   if(isFriday){
@@ -96,14 +102,15 @@ var isFridayText = function() {
 var replyRandomKey = function(bot, message) {
   var greatLine = getRandomKey();
   if(isFriday){
-    askOut = "TGIF! Let's have a drink this evening. What ya say? :grin:"
+    askOut = "TGIF! Let's have a drink this evening. What do you say? :grin:"
     bot.reply(message, greatLine + ' ' + askOut);
   }
   else {
-    askOut = "Let's have a drink this friday. What ya say? :grin:"
+    askOut = "Let's have a drink this friday. What do you say? :grin:"
     bot.reply(message, greatLine + ' ' + askOut);
   }
 }
+
 var replyRandomAdvise = function(bot, message) {
   var greatLine = getRandomKey();
   bot.reply(message, greatLine);
@@ -124,30 +131,30 @@ var personaliseIntro = function(userID) {
 }
 
 var sendKeyToHandler = function(bot, message) {
-  var placeholder = message.text.split("send invite to ")[1],
-      placeholder = placeholder ? placeholder.split(" in ") : false;
-  var user = placeholder[0];
-  var channel = placeholder[1],
-      channel = channel ? channel.split("<#")[1] : false,
-      channel = channel ? channel.split(">")[0] || channel : false;
+  var user = message.text.split("send invite to ")[1];
+  var username = user;
+  user = user ? user.split("<@")[1] : false,
+  user = user ? user.split(">")[0] : false;
 
   bot.startConversation(message,function(err,convo) {
-      if ( !user | !channel ) {
-        bot.reply(message, "Sorry I didn't get that. If you want me to send invite to someone, say `@tgifbot send invite to @username in #channel`");
+      if ( !username ) {
+        bot.reply(message, "Sorry I didn't get that. If you want me to send invite to someone, say `@tgifbot send invite to @username`");
         convo.stop();
       } else {
-        convo.ask("No problem! Do make sure I've been invited to that channel first though. \n Should I tell "+user+" you requested this? Say `yes` or `no`",function(response,convo) {
+        convo.ask("No problem!. \n Should I tell "+username+" you requested this? Say `yes` or `no`",function(response,convo) {
           if ( response.text === 'yes' | response.text === 'Yes' ) {
-            bot.reply(message, "Will do! Check <#"+channel+">");
-            bot.say({
-              text: "Ello Bae "+user + ", <@"+message.user+"> Invites you for a drink " + isFridayText() + getRandomKey(),
-              channel: channel
+            bot.reply(message, "I have sent an invite! :wink: ");
+            bot.startPrivateConversation({user: user}, function(err, convo) {
+              convo.say({
+                text: "Ello " + user + ", <@"+message.user+"> Invites you for a drink " + isFridayText() + getRandomKey()
+              });
             });
           } else {
-            bot.reply(message, "Ehn, Baddo sneh! Check <#"+channel+">");
-            bot.say({
-              text: user + " " + getRandomKey(),
-              channel: channel
+            bot.reply(message, "Invite sent!");
+            bot.startPrivateConversation({user: user}, function(err, convo) {
+              convo.say({
+                text: "Hello " + username + " Have a drink with friends :wink: " + getRandomKey()
+              });
             });
           }
           convo.stop();
@@ -172,7 +179,7 @@ controller.on("direct_message", function(bot, message) {
 
   } else if ( message.text.indexOf("help") > -1 ) {
 
-    var reply = "Look like you want to have fun " + isFridayText() + "Invite that special buddy, type `send invite to @username in #channel` "
+    var reply = "Look like you want to have fun " + isFridayText() + "Invite that special buddy, type `send invite to @username` "
     bot.reply(message, reply);
 
   } else if ( message.text.indexOf("send invite to") > -1 ) {
@@ -215,7 +222,7 @@ controller.on("direct_mention", function(bot, message) {
 
   } else if ( message.text.indexOf("help") > -1 ) {
 
-    var reply = "It looks like you want to have fun " + isFridayText() + "Invite that special buddy, type `send invite to @username in #channel` "
+    var reply = "It looks like you want to have fun " + isFridayText() + "Invite that special buddy, type `send invite to @username` "
     bot.reply(message, reply);
 
   } else {
@@ -260,15 +267,15 @@ controller.on("user_group_join", function(bot, message) {
 })
 
 controller.hears(["tgif", "tgif!", ":beer:", ":beers:", "beer"], ["ambient"], function(bot, message) {
-  var intro = "Baddo sneh! :raised_hands: <@"+message.user+">! It looks like you want to have fun " + isFridayText() + "Invite that special buddy, type `send invite to @username in #channel` ";
+  var intro = "Baddo sneh! :raised_hands: <@"+message.user+">! It looks like you want to have fun " + isFridayText() + "Invite that special buddy, type `send invite to @username` ";
   bot.reply(message, intro);
 })  
 controller.hears(["tgifbot"], ["ambient"], function(bot, message) {
-  var intro = "<@"+message.user+"> That's me. It looks like you want to have fun " + isFridayText() + "Invite that special buddy, type `send invite to @username in #channel` ";
+  var intro = "<@"+message.user+"> That's me. It looks like you want to have fun " + isFridayText() + "Invite that special buddy, type `send invite to @username` ";
   bot.reply(message, intro);
 })
 controller.hears(["chilling"], ["ambient"], function(bot, message) {
-  var intro = "<@"+message.user+"> It looks like you want to have fun " + isFridayText() + "Invite that special buddy, type `send invite to @username in #channel` ";
+  var intro = "<@"+message.user+"> It looks like you want to have fun " + isFridayText() + "Invite that special buddy, type `send invite to @username` ";
   bot.reply(message, intro);
 }) 
 controller.hears(["lol", "Lol", "lmao", "haha"], ["ambient"], function(bot, message) {
