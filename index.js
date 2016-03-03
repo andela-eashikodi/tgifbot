@@ -77,7 +77,7 @@ var lines = [
 ];
 
 var askOut;
-var isFriday = moment().day() === 5;
+var isFriday = new Date().getDay() === 5;
 
 var getRandomKey = function() {
   var index = Math.floor(Math.random() * lines.length);
@@ -286,7 +286,7 @@ controller.on("user_group_join", function(bot, message) {
 })
 
 controller.hears(["tgif", "tgif!", ":beer:", ":beers:", "beer"], ["ambient"], function(bot, message) {
-  var intro = personaliseIntro(message.user) + " you should have fun " + isFridayText() + "Invite that special buddy, type `@tgifbot send invite to @username` ";
+  var intro = personaliseIntro(message.user) + " .You should have fun " + isFridayText() + "Invite that special buddy, type `@tgifbot send invite to @username` ";
   bot.reply(message, intro);
 })  
 controller.hears(["tgifbot"], ["ambient"], function(bot, message) {
