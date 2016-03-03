@@ -165,7 +165,7 @@ var sendKeyToHandler = function(bot, message) {
             bot.reply(message, "Invite sent!");
             bot.startPrivateConversation({user: user}, function(err, convo) {
               convo.say({
-                text: "Hello " + username + " Have a drink with friends :wink: " + isFridayText() + "Invite that special buddy, type `send invite to @username` "
+                text: "Hello " + username + " Have a drink with friends " + isFridayText() + " :wink: Invite that special buddy, type `send invite to @username` "
               });
             });
           }
