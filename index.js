@@ -124,7 +124,7 @@ var personaliseIntro = function(userID) {
     ""+username+", :you_smart: you are sighted."
   ];
   if(!isFriday){
-    intros.push(""+username+", you must be in `chilling mode`. Am i right or yes?", "Wholop! "+username+"! Today isn't friday :white_frowning_face: ", ""+username+"! Face your work please :unamused: ")
+    intros.push("Wholop! "+username+"! Today isn't friday :unamused: ", ""+username+"! Face your work please :unamused: ")
   }
   var index = Math.floor(Math.random() * intros.length);
   return intros[index]
@@ -145,9 +145,21 @@ var sendKeyToHandler = function(bot, message) {
           if ( response.text === 'yes' | response.text === 'Yes' ) {
             bot.reply(message, "I have sent an invite! :wink: ");
             bot.startPrivateConversation({user: user}, function(err, convo) {
-              convo.say({
-                text: "Ello " + username + ", <@"+message.user+"> Invites you for a drink " + isFridayText() + getRandomKey()
-              });
+              convo.ask("Ello " + username + ", <@"+message.user+"> Invites you for a drink " + isFridayText() + getRandomKey(), function(response, convo) {
+                if(response.text === 'yes' | response.text === 'Yes') {
+                  bot.reply(message, username+" accepted your invite :wink:");
+                  bot.startPrivateConversation({user: user}, function(err, convo){
+                    convo.say({
+                      text: "Have a wonderful friday outing :wink:"
+                    })
+                  });
+                  convo.stop();
+                }
+                else {
+                  bot.reply(message, "Boring...");
+                  convo.stop();
+                }
+              } );
             });
           } else {
             bot.reply(message, "Invite sent!");
@@ -165,21 +177,21 @@ var sendKeyToHandler = function(bot, message) {
 
 controller.on("direct_message", function(bot, message) {
 
-  if ( message.text.indexOf("hello") > -1 | message.text.indexOf("hi") > -1 | message.text.indexOf("hey") > -1 ) {
+  if ( message.text.indexOf("hello") > -1 | message.text.indexOf("hi") > -1 | message.text.indexOf("hey") > -1  | message.text.indexOf("up") > -1 | message.text.indexOf("sup") > -1) {
 
-    var reply = "Hello. I'm tgifbot, make sure you always have fun " + isFridayText() + ". Word of advise..."
+    var reply = "Hello. I'm tgifbot, make sure you have fun " + isFridayText() + " Invite that special buddy, type `send invite to @username` "
     bot.reply(message, reply);
 
-    replyRandomAdvise(bot, message);
+    // replyRandomAdvise(bot, message);
 
   } else if ( message.text.indexOf("thanks") > -1 | message.text.indexOf("thank you") > -1 ) {
 
-    var reply = "Have fun buddy!"
+    var reply = "You are welcome. Have fun! :perfecto:"
     bot.reply(message, reply);
 
   } else if ( message.text.indexOf("help") > -1 ) {
 
-    var reply = "Look like you want to have fun " + isFridayText() + "Invite that special buddy, type `send invite to @username` "
+    var reply = "Looks like you want to have fun " + isFridayText() + "Invite that special buddy, type `send invite to @username` "
     bot.reply(message, reply);
 
   } else if ( message.text.indexOf("send invite to") > -1 ) {
@@ -205,11 +217,11 @@ controller.on("bot_channel_join", function(bot, message) {
 
 controller.on("direct_mention", function(bot, message) {
 
-  if ( message.text.indexOf("hello") > -1 | message.text.indexOf("hi") > -1 | message.text.indexOf("hey") > -1 ) {
+  if ( message.text.indexOf("hello") > -1 | message.text.indexOf("hi") > -1 | message.text.indexOf("hey") > -1 | message.text.indexOf("up") > -1 | message.text.indexOf("sup") > -1 ) {
 
-    var intro = personaliseIntro(message.user) + " Word of advise...";
+    var intro = personaliseIntro(message.user) + " You should have fun " + isFridayText()+" Invite that special buddy, type `send invite to @username` ";
     bot.reply(message, intro);
-    replyRandomKey(bot, message);
+    // replyRandomKey(bot, message);
 
   } else if ( message.text.indexOf("thanks") > -1 | message.text.indexOf("thank you") > -1 ) {
 
@@ -238,9 +250,9 @@ controller.on("mention", function(bot, message) {
 
   if ( message.text.indexOf("hello") > -1 | message.text.indexOf("hi") > -1 | message.text.indexOf("hey") > -1 ) {
 
-    var intro = personaliseIntro(message.user) + " Word of advise...";
+    var intro = personaliseIntro(message.user) + " You should have fun " + isFridayText()+" Invite that special buddy, type `send invite to @username` ";
     bot.reply(message, intro);
-    replyRandomAdvise(bot, message);
+    // replyRandomAdvise(bot, message);
 
   } else if ( message.text.indexOf("thanks") > -1 | message.text.indexOf("thank you") > -1 ) {
 
@@ -255,15 +267,15 @@ controller.on("mention", function(bot, message) {
 })
 
 controller.on("user_channel_join", function(bot, message) {
-  var intro = "Sup <@"+message.user+">! Do you want to have fun " + isFridayText() + "? Word of advise...";
+  var intro = "Sup <@"+message.user+">! Do you want to have fun " + isFridayText() + "? Make a new friend and Invite that special buddy, type `send invite to @username` ";
   bot.reply(message, intro);
-  replyRandomAdvise(bot, message);
+  // replyRandomAdvise(bot, message);
 })
 
 controller.on("user_group_join", function(bot, message) {
-  var intro = "Sup <@"+message.user+">! Do you want to have fun " + isFridayText() + "? Word of advise...";
+  var intro = "Sup <@"+message.user+">! Do you want to have fun " + isFridayText() + "? Make a new friend and Invite that special buddy, type `send invite to @username` ";
   bot.reply(message, intro);
-  replyRandomAdvise(bot, message);
+  // replyRandomAdvise(bot, message);
 })
 
 controller.hears(["tgif", "tgif!", ":beer:", ":beers:", "beer"], ["ambient"], function(bot, message) {
