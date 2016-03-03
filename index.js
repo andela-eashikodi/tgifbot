@@ -286,7 +286,7 @@ controller.on("user_group_join", function(bot, message) {
 })
 
 controller.hears(["tgif", "tgif!", ":beer:", ":beers:", "beer"], ["ambient"], function(bot, message) {
-  var intro = "Baddo sneh! :raised_hands: <@"+message.user+">! It looks like you want to have fun " + isFridayText() + "Invite that special buddy, type `@tgifbot send invite to @username` ";
+  var intro = personaliseIntro(message.user) + " you should have fun " + isFridayText() + "Invite that special buddy, type `@tgifbot send invite to @username` ";
   bot.reply(message, intro);
 })  
 controller.hears(["tgifbot"], ["ambient"], function(bot, message) {
