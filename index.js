@@ -92,7 +92,7 @@ var getRandomKey = function() {
 }
 
 var isFridayText = function() {
-  if(isFriday){
+  if(new Date().getDay() === 5){
     return "tonight "
   }
   else {
@@ -122,7 +122,7 @@ var personaliseIntro = function(userID) {
   var intros = [
     "You really love to have fun. dont you? :smirk: "+username+"",
   ];
-  if(isFriday){
+  if(new Date().getDay() === 5){
     intros.push("It's Friday, party people! :dancer:", "TGIF! I love fridays so much! It is my second favorite F word.", "It's Friday!! I feel so happy, I feel so fulfilled, i never experred it", "Its finally Friday! Felt like it took a week to get here!!", "Friday, is that you??????? TGIF people! :beer: ", "TGIF!... So many innocent beers have no idea what's coming for 'em.", "The way I see it, EVERY Friday is Good Friday.", "Its friday everybody! Maybe I should make a song about it.......u know, just to get the word out", "now taking reservations for midnight kisses on Friday night. Sign up below.", "I so much love the smell of Friday in the morning, it smells like... WEEKEND.");
   }
   else {
