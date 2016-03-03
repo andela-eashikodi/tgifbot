@@ -146,7 +146,7 @@ var sendKeyToHandler = function(bot, message) {
             bot.reply(message, "I have sent an invite! :wink: ");
             bot.startPrivateConversation({user: user}, function(err, convo) {
               convo.say({
-                text: "Ello " + user + ", <@"+message.user+"> Invites you for a drink " + isFridayText() + getRandomKey()
+                text: "Ello " + username + ", <@"+message.user+"> Invites you for a drink " + isFridayText() + getRandomKey()
               });
             });
           } else {
