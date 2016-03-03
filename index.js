@@ -72,7 +72,8 @@ var lines = [
   "All you need is love. But a little chocolate now and then doesn't hurt.",
   "Whenever I feel the need to exercise, I lie down until it goes away.",
   "I'm not afraid of death; I just don't want to be there when it happens.",
-  "I find television very educating. Every time somebody turns on the set, I go into the other room and read a book."
+  "I find television very educating. Every time somebody turns on the set, I go into the other room and read a book.",
+  "The golden rule of work is that the bosses jokes are ALWAYS funny."
 ];
 
 var askOut;
@@ -119,12 +120,13 @@ var replyRandomAdvise = function(bot, message) {
 var personaliseIntro = function(userID) {
   var username = "<@"+userID+">";
   var intros = [
-    "I sight some party people here: :dancer: "+username+"",
-    "I know what you did last friday: :see_no_evil: "+username+"",
-    ""+username+", :you_smart: you are sighted."
+    "You really love to have fun. dont you? :smirk: "+username+"",
   ];
-  if(!isFriday){
-    intros.push("Wholop! "+username+"! Today isn't friday :unamused: ", ""+username+"! Face your work please :unamused: ")
+  if(isFriday){
+    intros.push("It's Friday, party people! :dancer:", "TGIF! I love fridays so much! It is my second favorite F word.", "It's Friday!! I feel so happy, I feel so fulfilled, i never experred it", "Its finally Friday! Felt like it took a week to get here!!", "Friday, is that you??????? TGIF people! :beer: ", "TGIF!... So many innocent beers have no idea what's coming for 'em.", "The way I see it, EVERY Friday is Good Friday.", "Its friday everybody! Maybe I should make a song about it.......u know, just to get the word out", "now taking reservations for midnight kisses on Friday night. Sign up below.", "I so much love the smell of Friday in the morning, it smells like... WEEKEND.");
+  }
+  else {
+    intros.push("Wholop! "+username+"! Today isn't friday :unamused: ", ""+username+"! Face your work please :unamused: ", "I see you've set aside this special time to humiliate yourself in public.", "I'm out of my mind, but feel free to leave a message...", "I don't work here. I'm a consultant.", "I'm already visualizing the duct tape over your mouth.", "I will always cherish the initial misconceptions I had about you.", "Thank you. We're all refreshed and challenged by your unique point of view.", "The fact that no one understands you doesn't mean you're an artist.", "If I throw a stick, will you leave?", "I'm trying to imagine you with a personality.")
   }
   var index = Math.floor(Math.random() * intros.length);
   return intros[index]
