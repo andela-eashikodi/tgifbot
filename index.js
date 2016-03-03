@@ -81,14 +81,7 @@ var isFriday = moment().add(1, 'hour').day() === 5;
 
 var getRandomKey = function() {
   var index = Math.floor(Math.random() * lines.length);
-  if(isFriday){
-    askOut = " TGIF! Let's have a drink this evening. Invite that special buddy, type `@tgifbot send invite to @username` "
-    return lines[index] + askOut
-  }
-  else {
-    askOut = " Let's have a drink this friday. Invite that special buddy, type `@tgifbot send invite to @username` "
-    return lines[index] + askOut
-  }
+  return lines[index];
 }
 
 var isFridayText = function() {
@@ -147,7 +140,7 @@ var sendKeyToHandler = function(bot, message) {
           if ( response.text === 'yes' | response.text === 'Yes' ) {
             bot.reply(message, "I have sent an invite! :wink: ");
             bot.startPrivateConversation({user: user}, function(err, convo) {
-              convo.ask("Ello " + username + ", <@"+message.user+"> Invites you for a drink " + isFridayText() + getRandomKey(), function(response, convo) {
+              convo.ask("Ello " + username + ", <@"+message.user+"> Invites you for a drink " + isFridayText() + " what do you say? ", function(response, convo) {
                 if(response.text === 'yes' | response.text === 'Yes') {
                   bot.reply(message, username+" accepted your invite :wink:");
                   bot.startPrivateConversation({user: user}, function(err, convo){
