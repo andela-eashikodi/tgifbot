@@ -119,7 +119,7 @@ var personaliseIntro = function(userID) {
     intros.push("It's Friday, party people! :dancer:", "TGIF! I love fridays so much! It is my second favorite F word.", "It's Friday!! I feel so happy, I feel so fulfilled, i never experred it", "Its finally Friday! Felt like it took a week to get here!!", "Friday, is that you??????? TGIF people! :beer: ", "TGIF!... So many innocent beers have no idea what's coming for 'em.", "The way I see it, EVERY Friday is Good Friday.", "Its friday everybody! Maybe I should make a song about it.......u know, just to get the word out", "now taking reservations for midnight kisses on Friday night. Sign up below.", "I so much love the smell of Friday in the morning, it smells like... WEEKEND.");
   }
   else {
-    intros.push("Wholop! "+username+"! Today isn't friday :unamused: ", ""+username+"! Face your work please :unamused: ", "I see you've set aside this special time to humiliate yourself in public.", "I'm out of my mind, but feel free to leave a message...", "I don't work here. I'm a consultant.", "I'm already visualizing the duct tape over your mouth.", "I will always cherish the initial misconceptions I had about you.", "Thank you. We're all refreshed and challenged by your unique point of view.", "The fact that no one understands you doesn't mean you're an artist.", "If I throw a stick, will you leave?", "I'm trying to imagine you with a personality.")
+    intros.push("Wholop! "+username+"! Today isn't friday :unamused: ", ""+username+"! Face your work please :unamused: ", "I see you've set aside this special time to humiliate yourself in public.", "I'm out of my mind, but feel free to leave a message...", "I don't work here. I'm a consultant.", "I'm already visualizing the duct tape over your mouth.", "I will always cherish the initial misconceptions I had about you.", "Thank you. We're all refreshed and challenged by your unique point of view.", "The fact that no one understands you doesn't mean you're an artist.", "If I throw a stick, will you leave?", "I'm trying to imagine you with a personality.", "I heard you are among top 1%...of jobless people in the office. ")
   }
   var index = Math.floor(Math.random() * intros.length);
   return intros[index]
@@ -227,9 +227,9 @@ controller.on("direct_mention", function(bot, message) {
 
   } else {
 
-    var intro = personaliseIntro(message.user);
+    var intro = personaliseIntro(message.user) + " You should have fun " + isFridayText()+" Invite that special buddy, type `@tgifbot send invite to @username` ";
     bot.reply(message, intro);
-    replyRandomAdvise(bot, message);
+    // replyRandomAdvise(bot, message);
 
   }
 })
@@ -248,9 +248,9 @@ controller.on("mention", function(bot, message) {
     bot.reply(message, reply);
 
   } else {
-    var intro = personaliseIntro(message.user);
+    var intro = personaliseIntro(message.user) + " You should have fun " + isFridayText()+" Invite that special buddy, type `@tgifbot send invite to @username` ";
     bot.reply(message, intro);
-    replyRandomAdvise(bot, message);
+    // replyRandomAdvise(bot, message);
   }
 })
 
