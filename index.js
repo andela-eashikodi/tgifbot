@@ -168,6 +168,7 @@ var sendKeyToHandler = function(bot, message) {
           } );
         });
       }  
+      convo.stop();
   })
 }
 
