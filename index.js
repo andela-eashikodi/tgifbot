@@ -144,28 +144,34 @@ var sendKeyToHandler = function(bot, message) {
         bot.reply(message, "Sorry I didn't get that. If you want me to send invite to someone, say `@tgifbot send invite to @username`");
         convo.stop();
       } else {
-        bot.reply(message, "I have sent an invite! :wink: ");
+        
         bot.startPrivateConversation({user: user}, function(err, convo) {
-          convo.ask("Ello " + username + ", <@"+message.user+"> Invites you for a drink " + isFridayText() + " what do you say? ", function(response, convo) {
-            if(response.text === 'yes' | response.text === 'Yes') {
-              bot.reply(message, username+" accepted your invite :wink:");
-              bot.startPrivateConversation({user: user}, function(err, convo){
-                convo.say({
-                  text: "Have a wonderful friday outing :wink:"
-                })
-              });
-              convo.stop();
-            }
-            else {
-              bot.startPrivateConversation({user: user}, function(err, convo){
-                convo.say({
-                  text: "Boring..."
+          if(err){
+            bot.reply(message, 'Hmmm! What are you tryna do?! :confused: ');
+          }
+          else {
+            bot.reply(message, "I have sent an invite! :wink: ");
+            convo.ask("Ello " + username + ", <@"+message.user+"> Invites you for a drink " + isFridayText() + " what do you say? ", function(response, convo) {
+              if(response.text === 'yes' | response.text === 'Yes') {
+                bot.reply(message, username+" accepted your invite :wink:");
+                bot.startPrivateConversation({user: user}, function(err, convo){
+                  convo.say({
+                    text: "Have a wonderful friday outing :wink:"
+                  })
                 });
-              });
-              // bot.reply(message, "Boring...");
-              convo.stop();
-            }
-          } );
+                convo.stop();
+              }
+              else {
+                bot.startPrivateConversation({user: user}, function(err, convo){
+                  convo.say({
+                    text: "Boring..."
+                  });
+                });
+                // bot.reply(message, "Boring...");
+                convo.stop();
+              }
+            });
+          }
         });
       }  
       convo.stop();
