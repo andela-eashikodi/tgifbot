@@ -6,11 +6,11 @@ var token = process.env.SLACK_TOKEN || config.SLACK_TOKEN; // get slack token pa
 // Setup new slackbot with botkit
 var controller = Botkit.slackbot({  
   debug: false
-})
+});
 
 // Check that token was passed
 if (!token) {  
-  console.error('SLACK_TOKEN is required')
+  console.error('SLACK_TOKEN is required');
 }
 
 // Start Slack’s Bot Real Time Messaging API (RTM)
@@ -18,7 +18,7 @@ controller.spawn({
   token: token
 }).startRTM(function(err, bot , payload) {
   if (err) {
-    throw new Error(err)
+    throw new Error(err);
   }
 });
 
@@ -75,40 +75,40 @@ var lines = [
   "I find television very educating. Every time somebody turns on the set, I go into the other room and read a book.",
   "The golden rule of work is that the bosses jokes are ALWAYS funny."
 ];
-
-var askOut;
+// var reply;
+var intro, askOut;
 var isFriday = moment().add(1, 'hour').day() === 5;
 
 var getRandomKey = function() {
   var index = Math.floor(Math.random() * lines.length);
   return lines[index];
-}
+};
 
 var isFridayText = function() {
   if(isFriday){
-    return "tonight "
+    return "tonight ";
   }
   else {
-    return "friday evening "
+    return "friday evening ";
   }
-}
+};
 
 var replyRandomKey = function(bot, message) {
   var greatLine = getRandomKey();
   if(isFriday){
-    askOut = " TGIF! Let's have a drink this evening. Invite that special buddy, type `@tgifbot send invite to @username` "
+    askOut = " TGIF! Let's have a drink this evening. Invite that special buddy, type `@tgifbot send invite to @username` ";
     bot.reply(message, greatLine + ' ' + askOut);
   }
   else {
-    askOut = " Let's have a drink this friday. Invite that special buddy, type `@tgifbot send invite to @username` "
+    askOut = " Let's have a drink this friday. Invite that special buddy, type `@tgifbot send invite to @username` ";
     bot.reply(message, greatLine + ' ' + askOut);
   }
-}
+};
 
 var replyRandomAdvise = function(bot, message) {
   var greatLine = getRandomKey();
   bot.reply(message, greatLine);
-}
+};
 
 var personaliseIntro = function(userID) {
   var username = "<@"+userID+">";
@@ -123,15 +123,14 @@ var personaliseIntro = function(userID) {
     "It sounds like English, but I can't understand a word you're saying.", 
     "You are validating my inherent mistrust of strangers",
     "Do I look like a people person to you", 
-    "I'll try being nicer if you'll try being more intelligent.",
     "I'd like to help you out, which way did you come in?",
     "If you have something to say raise your hand... then place it over your mouth.",
     "You're not yourself today, I noticed the improvement straight away. "
-    )
+  );
   }
   var index = Math.floor(Math.random() * intros.length);
-  return intros[index]
-}
+  return intros[index];
+};
 
 var sendKeyToHandler = function(bot, message) {
   var user = message.text.split("send invite to ")[1];
@@ -157,7 +156,7 @@ var sendKeyToHandler = function(bot, message) {
                 bot.startPrivateConversation({user: user}, function(err, convo){
                   convo.say({
                     text: "Have a wonderful friday outing :wink:"
-                  })
+                  });
                 });
                 convo.stop();
               }
@@ -175,26 +174,26 @@ var sendKeyToHandler = function(bot, message) {
         });
       }  
       convo.stop();
-  })
-}
+  });
+};
 
 controller.on("direct_message", function(bot, message) {
-
+  var reply;
   if ( message.text.indexOf("hello") > -1 | message.text.indexOf("hi") > -1 | message.text.indexOf("hey") > -1  | message.text.indexOf("up") > -1 | message.text.indexOf("sup") > -1) {
 
-    var reply = "Hello. I'm tgifbot, make sure you have fun " + isFridayText() + " Invite that special buddy, type `@tgifbot send invite to @username` "
+    reply = "Hello. I'm tgifbot, make sure you have fun " + isFridayText() + " Invite that special buddy, type `@tgifbot send invite to @username` ";
     bot.reply(message, reply);
 
     // replyRandomAdvise(bot, message);
 
   } else if ( message.text.indexOf("thanks") > -1 | message.text.indexOf("thank you") > -1 ) {
 
-    var reply = "You are welcome. Have fun! :perfecto:"
+    reply = "You are welcome. Have fun! :perfecto:";
     bot.reply(message, reply);
 
   } else if ( message.text.indexOf("help") > -1 ) {
 
-    var reply = "Looks like you want to have fun " + isFridayText() + "Invite that special buddy, type `@tgifbot send invite to @username` "
+    reply = "Looks like you want to have fun " + isFridayText() + "Invite that special buddy, type `@tgifbot send invite to @username` ";
     bot.reply(message, reply);
 
   } else if ( message.text.indexOf("send invite to") > -1 ) {
@@ -213,22 +212,22 @@ controller.on("direct_message", function(bot, message) {
 
 
 controller.on("bot_channel_join", function(bot, message) {
-  var intro = "I see some workaholics here! "
+  var intro = "I see some workaholics here! ";
   bot.reply(message, intro);
   replyRandomAdvise(bot, message);
-})
+});
 
 controller.on("direct_mention", function(bot, message) {
-
+  var reply, intro;
   if ( message.text.indexOf("hello") > -1 | message.text.indexOf("hi") > -1 | message.text.indexOf("hey") > -1 | message.text.indexOf("up") > -1 | message.text.indexOf("sup") > -1 ) {
 
-    var intro = personaliseIntro(message.user) + " You should have fun " + isFridayText()+" Invite that special buddy, type `@tgifbot send invite to @username` ";
+    intro = personaliseIntro(message.user) + " You should have fun " + isFridayText()+" Invite that special buddy, type `@tgifbot send invite to @username` ";
     bot.reply(message, intro);
     // replyRandomKey(bot, message);
 
   } else if ( message.text.indexOf("thanks") > -1 | message.text.indexOf("thank you") > -1 ) {
 
-    var reply = "Have fun buddy!"
+     reply = "Have fun buddy!";
     bot.reply(message, reply);
 
   } else if ( message.text.indexOf("send invite to") > -1 ) {
@@ -237,75 +236,75 @@ controller.on("direct_mention", function(bot, message) {
 
   } else if ( message.text.indexOf("help") > -1 ) {
 
-    var reply = "It looks like you want to have fun " + isFridayText() + "Invite that special buddy, type `@tgifbot send invite to @username` "
+     reply = "It looks like you want to have fun " + isFridayText() + "Invite that special buddy, type `@tgifbot send invite to @username` ";
     bot.reply(message, reply);
 
   } else {
 
-    var intro = personaliseIntro(message.user) + " You should have fun " + isFridayText()+" Invite that special buddy, type `@tgifbot send invite to @username` ";
+    intro = personaliseIntro(message.user) + " You should have fun " + isFridayText()+" Invite that special buddy, type `@tgifbot send invite to @username` ";
     bot.reply(message, intro);
     // replyRandomAdvise(bot, message);
 
   }
-})
+});
 
 controller.on("mention", function(bot, message) {
-
+  
   if ( message.text.indexOf("hello") > -1 | message.text.indexOf("hi") > -1 | message.text.indexOf("hey") > -1 | message.text.indexOf("up") > -1 | message.text.indexOf("sup") > -1 ) {
 
-    var intro = personaliseIntro(message.user) + " You should have fun " + isFridayText()+" Invite that special buddy, type `@tgifbot send invite to @username` ";
+     intro = personaliseIntro(message.user) + " You should have fun " + isFridayText()+" Invite that special buddy, type `@tgifbot send invite to @username` ";
     bot.reply(message, intro);
     // replyRandomAdvise(bot, message);
 
   } else if ( message.text.indexOf("thanks") > -1 | message.text.indexOf("thank you") > -1 ) {
 
-    var reply = "Have fun buddy!"
+    var reply = "Have fun buddy!";
     bot.reply(message, reply);
 
   } else {
-    var intro = personaliseIntro(message.user) + " You should have fun " + isFridayText()+" Invite that special buddy, type `@tgifbot send invite to @username` ";
+     intro = personaliseIntro(message.user) + " You should have fun " + isFridayText()+" Invite that special buddy, type `@tgifbot send invite to @username` ";
     bot.reply(message, intro);
     // replyRandomAdvise(bot, message);
   }
-})
+});
 
 controller.on("user_channel_join", function(bot, message) {
   var intro = "Sup <@"+message.user+">! Do you want to have fun " + isFridayText() + "? Make a new friend and Invite that special buddy, type `@tgifbot send invite to @username` ";
   bot.reply(message, intro);
   // replyRandomAdvise(bot, message);
-})
+});
 
 controller.on("user_group_join", function(bot, message) {
   var intro = "Sup <@"+message.user+">! Do you want to have fun " + isFridayText() + "? Make a new friend and Invite that special buddy, type `@tgifbot send invite to @username` ";
   bot.reply(message, intro);
   // replyRandomAdvise(bot, message);
-})
+});
 
 controller.hears(["tgif", "tgif!", ":beer:", ":beers:", "beer"], ["ambient"], function(bot, message) {
   var intro = personaliseIntro(message.user) + ". You should have fun " + isFridayText() + "Invite that special buddy, type `@tgifbot send invite to @username` ";
   bot.reply(message, intro);
-})  
+}) ; 
 controller.hears(["tgifbot"], ["ambient"], function(bot, message) {
   var intro = "<@"+message.user+"> That's me. It looks like you want to have fun " + isFridayText() + "Invite that special buddy, type `@tgifbot send invite to @username` ";
   bot.reply(message, intro);
-})
+});
 controller.hears(["chilling"], ["ambient"], function(bot, message) {
   var intro = "<@"+message.user+"> It looks like you want to have fun " + isFridayText() + "Invite that special buddy, type `@tgifbot send invite to @username` ";
   bot.reply(message, intro);
-}) 
+}) ;
 controller.hears(["lol", "Lol", "lmao", "haha"], ["ambient"], function(bot, message) {
 
   var laughing = [
     "Lawl `in abimbola's voice`", "Hilarious", ":joy:", ":laughing:", "Hahahaha", ":kanye:"
-  ]
+  ];
 
   var index = Math.floor(Math.random() * laughing.length);
   bot.reply(message, laughing[index]);
-}) 
+}); 
 
 
 controller.hears(["send invite to"], ["direct_message", "direct_metion", "ambient"], function(bot, message) {
 
   sendKeyToHandler(bot, message);
 
-}) 
+});
